@@ -25,6 +25,7 @@ void Player::loot_room(Room *room) {
     add_item(item);
   });*/
   std::vector<Item> items = room->items;
+
   for (std::vector<Item>::size_type i = 0; i < items.size(); ++i) {
     add_item(items[i]);
   }
