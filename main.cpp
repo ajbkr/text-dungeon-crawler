@@ -1,5 +1,5 @@
 // Copyright 2021 Andrew J. Baker
-#include <iostream>
+#include <iostream>  // cout, endl
 
 #include "Player.h"
 

@@ -13,7 +13,8 @@ class Room {
   std::vector<Item> items;
   std::vector<GameCharacter> enemies;
 
-  Room(int, bool, std::vector<Item>, std::vector<GameCharacter>);
+  Room(int = 0, bool = false, std::vector<Item> = std::vector<Item>(),
+   std::vector<GameCharacter> = std::vector<GameCharacter>());
 
   void clear_loot();
   void clear_enemies();

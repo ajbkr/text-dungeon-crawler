@@ -15,7 +15,7 @@ class Player: public GameCharacter {
   Room *previous_room;
   std::vector<Item> inventory;
 
-  Player(std::string, int, int, int);
+  explicit Player(std::string = "", int = 0, int = 0, int = 0);
 
   void add_item(Item);
   void increase_stats(int, int, int);
