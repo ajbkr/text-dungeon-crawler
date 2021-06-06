@@ -10,10 +10,10 @@ class Room {
  public:
   int pos;
   bool is_exit;
-  vector<Item> items;
-  vector<GameCharacter> enemies;
+  std::vector<Item> items;
+  std::vector<GameCharacter> enemies;
 
-  Room(int, bool, vector<Item>, vector<GameCharacter>);
+  Room(int, bool, std::vector<Item>, std::vector<GameCharacter>);
 
   void clear_loot();
   void clear_enemies();

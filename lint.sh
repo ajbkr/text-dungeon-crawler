@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-cpplint *.cpp *.h
+cppcheck --language=c++ *.cpp *.h && cpplint *.cpp *.h
