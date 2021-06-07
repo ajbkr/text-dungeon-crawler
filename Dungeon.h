@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "GameCharacter.h"
 #include "Player.h"
 #include "Room.h"
 
@@ -20,7 +21,7 @@ class Dungeon {
   void handle_room_with_chest(Room *);
   void handle_room_with_enemy(Room *);
   void handle_loot_actions(Room *);
-  void handle_fight_actions(Room *);
+  void handle_fight_actions(GameCharacter *);
   void handle_movement_actions(Room *);
   void print_actions(int, std::string[]);
   int perform_end_game_logic();

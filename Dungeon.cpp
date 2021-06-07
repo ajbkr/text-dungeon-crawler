@@ -3,8 +3,10 @@
 #include <string>
 #include <vector>
 
+#include "GameCharacter.h"
 #include "Dungeon.h"
 #include "Player.h"
+#include "Item.h"
 
 Dungeon::Dungeon(Player p) {
   player = p;
@@ -14,6 +16,74 @@ void Dungeon::print_actions(int num_actions, std::string actions[]) {
   std::cout << "Choose an action:" << std::endl;
   for (int i = 0; i < num_actions; ++i) {
     std::cout << actions[i] << std::endl;
+  }
+}
+
+void Dungeon::handle_fight_actions(GameCharacter *enemy) {
+  std::string actions[] = {
+    "a. Attack",
+    "b. Retreat"
+  };
+
+  while (true) {
+    print_actions(2, actions);
+
+    // handle player actions
+    std::string input;
+
+    std::cin >> input;
+    if (input == "a") {
+      int damage = enemy->take_damage(player.attack);
+      std::cout << "Your attack does " << damage << " damage." << std::endl;
+    } else if (input == "b") {
+      player.change_rooms(player.previous_room);
+      enter_room(player.current_room);
+      return;
+    } else {
+      std::cout << "Incorrect choice." << std::endl;
+    }
+    if (enemy->check_is_dead()) {
+      std::cout << "Hurrah! You've slain the " << enemy->name << "." <<
+       std::endl;
+      return;
+    }
+
+    // handle enemy actions
+    int damage = player.take_damage(enemy->attack);
+    std::cout << "The enemy's attack does " << damage << " damage." <<
+     std::endl;
+    if (player.check_is_dead()) {  // XXX req'd?
+      std::cout << "Oh no, you're toast!" << std::endl;
+      return;
+    }
+  }
+}
+
+void Dungeon::handle_room_with_enemy(Room *room) {
+  GameCharacter enemy = room->enemies.front();
+  std::cout << "You enter the room and see a " << enemy.name << "." <<
+   std::endl;
+
+  std::string actions[] = {
+    "a. Fight the " + enemy.name,
+    "b. Go back to previous room"
+  };
+
+  while (true) {
+    print_actions(2, actions);
+
+    std::string input;
+
+    std::cin >> input;
+    if (input == "a") {
+      // fight
+    } else if (input == "b") {
+      player.change_rooms(player.previous_room);
+      enter_room(player.current_room);
+      return;
+    } else {
+      std::cout << "Incorrect choice." << std::endl;
+    }
   }
 }
 
