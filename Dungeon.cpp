@@ -42,18 +42,23 @@ void Dungeon::handle_fight_actions(GameCharacter *enemy) {
     } else {
       std::cout << "Incorrect choice." << std::endl;
     }
+
+    // check if enemy is dead
     if (enemy->check_is_dead()) {
-      std::cout << "Hurrah! You've slain the " << enemy->name << "." <<
+      std::cout << "You win! You have defeated the " << enemy->name << "." <<
        std::endl;
+      player.increase_stats(10, 5, 5);
+      player.current_room->clear_enemies();
       return;
     }
 
     // handle enemy actions
     int damage = player.take_damage(enemy->attack);
-    std::cout << "The enemy's attack does " << damage << " damage." <<
+    std::cout << enemy->name << "'s attack does " << damage << " damage." <<
      std::endl;
-    if (player.check_is_dead()) {  // XXX req'd?
-      std::cout << "Oh no, you're toast!" << std::endl;
+    std::cout << "You now have " << player.current_health << " health." <<
+     std::endl;
+    if (player.check_is_dead()) {
       return;
     }
   }
@@ -76,7 +81,7 @@ void Dungeon::handle_room_with_enemy(Room *room) {
 
     std::cin >> input;
     if (input == "a") {
-      // fight
+      handle_fight_actions(&enemy);
     } else if (input == "b") {
       player.change_rooms(player.previous_room);
       enter_room(player.current_room);
@@ -147,7 +152,7 @@ void Dungeon::handle_empty_room(Room *room) {
 
 void Dungeon::enter_room(Room *room) {
   if (room->enemies.size() != 0) {
-    // handle room with enemy
+    handle_room_with_enemy(room);
   } else if (room->items.size() != 0) {
     handle_room_with_chest(room);
   } else {
