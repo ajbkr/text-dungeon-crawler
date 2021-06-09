@@ -227,6 +227,27 @@ void Dungeon::handle_movement_actions(Room *room) {
   }
 }
 
+int Dungeon::perform_end_game_logic() {
+  std::string actions[] = {
+    "a. Yes",
+    "b. No"
+  };
+
+  while (true) {
+    print_actions(2, actions);
+
+    std::string input;
+    std::cin >> input;
+    if (input == "a") {
+      return 1;
+    } else if (input == "b") {
+      return 0;
+    } else {
+      std::cout << "Incorrect choice." << std::endl;
+    }
+  }
+}
+
 int Dungeon::run_dungeon() {
   std::cout << "Welcome to the dungeon! Inside you will find treasure but also "
    "enemies." << std::endl << "Enter at your peril!" << std::endl;
@@ -236,7 +257,17 @@ int Dungeon::run_dungeon() {
 
   while (true) {
     enter_room(player.current_room);
-    // check if dead
+    if (player.check_is_dead()) {
+      std::cout << "Game over! Try again?" << std::endl;
+      return perform_end_game_logic();
+    } else {
+      if (player.current_room->is_exit) {
+        if (player.current_room->enemies.size() == 0) {
+          std::cout << "You win! Play again?" << std::endl;
+          return perform_end_game_logic();
+        }
+      }
+    }
     handle_movement_actions(player.current_room);
   }
 }
