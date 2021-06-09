@@ -160,6 +160,73 @@ void Dungeon::enter_room(Room *room) {
   }
 }
 
+// +---+
+// |0 1|
+// | --+
+// |2 3|
+// +---+
+void Dungeon::handle_movement_actions(Room *room) {
+  while (true) {
+    if (room->pos == 0) {
+      std::string actions[] = {
+        "a. Move right",
+        "b. Move down"
+      };
+      print_actions(2, actions);
+      std::string input;
+      std::cin >> input;
+      if (input == "a") {
+        player.change_rooms(&rooms[1]);
+        return;
+      } else if (input == "b") {
+        player.change_rooms(&rooms[2]);
+        return;
+      } else {
+        std::cout << "Incorrect choice." << std::endl;
+      }
+    } else if (room->pos == 1) {
+      std::string actions[] = { "a. Move left" };
+      print_actions(1, actions);
+      std::string input;
+      std::cin >> input;
+      if (input == "a") {
+        player.change_rooms(&rooms[0]);
+        return;
+      } else {
+        std::cout << "Incorrect choice." << std::endl;
+      }
+    } else if (room->pos == 2) {
+      std::string actions[] = {
+        "a. Move up",
+        "b. Move right"
+      };
+      print_actions(2, actions);
+      std::string input;
+      std::cin >> input;
+      if (input == "a") {
+        player.change_rooms(&rooms[0]);
+        return;
+      } else if (input == "b") {
+        player.change_rooms(&rooms[3]);
+        return;
+      } else {
+        std::cout << "Incorrect choice." << std::endl;
+      }
+    } else {
+      std::string actions[] = { "a. Move left" };
+      print_actions(1, actions);
+      std::string input;
+      std::cin >> input;
+      if (input == "a") {
+        player.change_rooms(&rooms[2]);
+        return;
+      } else {
+        std::cout << "Incorrect choice." << std::endl;
+      }
+    }
+  }
+}
+
 int Dungeon::run_dungeon() {
   std::cout << "Welcome to the dungeon! Inside you will find treasure but also "
    "enemies." << std::endl << "Enter at your peril!" << std::endl;
@@ -169,10 +236,7 @@ int Dungeon::run_dungeon() {
 
   while (true) {
     enter_room(player.current_room);
-    // enter room
-    // present actions
-    // take action - enter sequence
     // check if dead
-    // movement options
+    handle_movement_actions(player.current_room);
   }
 }
