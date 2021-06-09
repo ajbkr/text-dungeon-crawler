@@ -82,6 +82,7 @@ void Dungeon::handle_room_with_enemy(Room *room) {
     std::cin >> input;
     if (input == "a") {
       handle_fight_actions(&enemy);
+      return;
     } else if (input == "b") {
       player.change_rooms(player.previous_room);
       enter_room(player.current_room);
@@ -97,12 +98,13 @@ void Dungeon::handle_loot_actions(Room *room) {
   for (std::vector<Item>::size_type i = 0; i < room->items.size(); ++i) {
     std::cout << "  " << room->items[i].name << "" << std::endl;
   }
-  std::cout << "Your health is now " << player.current_health <<
-   ", your attack is now " << player.attack << ", and your defence is now " <<
-   player.defence << std::endl;
 
   player.loot_room(room);
   room->clear_loot();
+
+  std::cout << "Your health is now " << player.current_health <<
+   ", your attack is now " << player.attack << ", and your defence is now " <<
+   player.defence << std::endl;
 }
 
 void Dungeon::handle_room_with_chest(Room *room) {
